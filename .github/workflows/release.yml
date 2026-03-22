@@ -47,20 +47,32 @@ jobs:
         run: |
           mkdir -p dist
           
+          # Build and zip each platform sequentially to minimize disk usage
+          
           # Linux AMD64
           GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_amd64 .
+          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_amd64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_amd64
+          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_amd64
           
           # Linux ARM64
           GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_arm64 .
+          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_arm64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_arm64
+          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_arm64
           
           # Darwin AMD64
           GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_amd64 .
+          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_amd64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_amd64
+          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_amd64
           
           # Darwin ARM64
           GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_arm64 .
+          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_arm64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_arm64
+          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_arm64
           
           # Windows AMD64
           GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_windows_amd64.exe .
+          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_windows_amd64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_windows_amd64.exe
+          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_windows_amd64.exe
 
       - name: Create checksums
         working-directory: dist
@@ -88,11 +100,8 @@ jobs:
       - name: Create zip archives
         working-directory: dist
         run: |
-          for f in terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_amd64 terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_arm64 terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_amd64 terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_arm64 terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_windows_amd64.exe; do
-            if [[ -f "$f" ]]; then
-              zip "${f}.zip" "$f"
-            fi
-          done
+          # Zips already created during build step to save disk space
+          echo "All platforms built and zipped in build step"
 
       - name: Delete existing release
         if: github.event_name == 'workflow_dispatch'
