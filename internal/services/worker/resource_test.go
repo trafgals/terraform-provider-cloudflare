@@ -229,6 +229,8 @@ func testAccCloudflareWorkerConfigBuildsEnabled(rnd, accountID string) string {
 }
 
 func TestAccCloudflareWorker_Builds(t *testing.T) {
+	t.Skip("Skipping: Workers Builds API requires additional token permissions (code 12006)")
+
 	rnd := utils.GenerateRandomResourceName()
 	resourceName := resourcePrefix + rnd
 	name := "cloudflare_worker." + resourceName
