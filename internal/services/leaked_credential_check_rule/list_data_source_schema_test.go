@@ -6,8 +6,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/leaked_credential_check_rule"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/test_helpers"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/leaked_credential_check_rule"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/test_helpers"
 )
 
 func TestLeakedCredentialCheckRulesDataSourceModelSchemaParity(t *testing.T) {

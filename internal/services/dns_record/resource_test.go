@@ -13,9 +13,9 @@ import (
 
 	cloudflare "github.com/cloudflare/cloudflare-go/v6"
 	"github.com/cloudflare/cloudflare-go/v6/dns"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/acctest"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/consts"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/utils"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/acctest"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/consts"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/utils"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -586,7 +586,7 @@ func TestSuppressTrailingDots(t *testing.T) {
 }
 
 // TestAccCloudflareRecord_TagsDrift tests for the issue reported in
-// https://github.com/cloudflare/terraform-provider-cloudflare/issues/5517
+// https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/5517
 // where DNS records show perpetual drift with tags and other computed fields
 func TestAccCloudflareRecord_TagsDrift(t *testing.T) {
 	// Don't run in parallel to avoid conflicts
@@ -715,7 +715,7 @@ func TestAccCloudflareRecord_ComputedFieldsDrift(t *testing.T) {
 }
 
 // TestAccCloudflareRecord_DriftIssue5517 specifically tests for the drift issues
-// reported in https://github.com/cloudflare/terraform-provider-cloudflare/issues/5517
+// reported in https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/5517
 // This test attempts to reproduce the exact scenarios users reported
 func TestAccCloudflareRecord_DriftIssue5517(t *testing.T) {
 	zoneID := os.Getenv("CLOUDFLARE_ZONE_ID")

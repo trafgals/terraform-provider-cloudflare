@@ -10,8 +10,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-testing/statecheck"
 	"github.com/hashicorp/terraform-plugin-testing/tfjsonpath"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/acctest"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/utils"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/acctest"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/utils"
 )
 
 // TestMigrateBotManagement_V4ToV5_Basic tests migration with basic bot management fields

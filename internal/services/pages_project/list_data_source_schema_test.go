@@ -6,8 +6,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/pages_project"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/test_helpers"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/pages_project"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/test_helpers"
 )
 
 func TestPagesProjectsDataSourceModelSchemaParity(t *testing.T) {

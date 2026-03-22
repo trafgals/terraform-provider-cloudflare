@@ -7,7 +7,7 @@ import (
 
 // SourceCloudflareByoIPPrefixModel represents the source cloudflare_byo_ip_prefix state structure.
 // This corresponds to schema_version=0 from the legacy (SDKv2) cloudflare provider.
-// Reference: https://github.com/cloudflare/terraform-provider-cloudflare/blob/v4/internal/sdkv2provider/schema_cloudflare_byo_ip_prefix.go
+// Reference: https://github.com/trafgals/terraform-provider-cloudflare-trafgals/blob/v4/internal/sdkv2provider/schema_cloudflare_byo_ip_prefix.go
 type SourceCloudflareByoIPPrefixModel struct {
 	ID            types.String `tfsdk:"id"`
 	AccountID     types.String `tfsdk:"account_id"`

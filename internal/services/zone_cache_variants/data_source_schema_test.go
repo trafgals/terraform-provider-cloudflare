@@ -6,8 +6,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/zone_cache_variants"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/test_helpers"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/zone_cache_variants"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/test_helpers"
 )
 
 func TestZoneCacheVariantsDataSourceModelSchemaParity(t *testing.T) {

@@ -6,8 +6,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/pipeline_sink"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/test_helpers"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/pipeline_sink"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/test_helpers"
 )
 
 func TestPipelineSinkModelSchemaParity(t *testing.T) {

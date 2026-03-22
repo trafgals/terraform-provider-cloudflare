@@ -7,7 +7,7 @@ import (
 	"errors"
 	"mime/multipart"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/apiform"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/apiform"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )

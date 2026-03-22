@@ -10,8 +10,8 @@ import (
 
 	"github.com/cloudflare/cloudflare-go/v6"
 	"github.com/cloudflare/cloudflare-go/v6/option"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/apijsoncustom"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/logging"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/apijsoncustom"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/logging"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 )
 

@@ -17,9 +17,9 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/apijson"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/importpath"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/logging"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/apijson"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/importpath"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/logging"
 )
 
 // Ensure provider defined types fully satisfy framework interfaces.

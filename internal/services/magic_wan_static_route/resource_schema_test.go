@@ -6,8 +6,8 @@ import (
 	"context"
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/magic_wan_static_route"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/test_helpers"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/magic_wan_static_route"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/test_helpers"
 )
 
 func TestMagicWANStaticRouteModelSchemaParity(t *testing.T) {

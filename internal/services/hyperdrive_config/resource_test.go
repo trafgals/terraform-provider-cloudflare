@@ -8,9 +8,9 @@ import (
 	"testing"
 
 	cfv1 "github.com/cloudflare/cloudflare-go"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/acctest"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/consts"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/utils"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/acctest"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/consts"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/utils"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
@@ -391,7 +391,7 @@ func TestAccCloudflareHyperdriveConfig_Minimum(t *testing.T) {
 
 // TestAccCloudflareHyperdriveConfig_NoDiffOnConsecutiveApply tests that applying the same
 // configuration twice does not result in any changes being detected.
-// This is a regression test for https://github.com/cloudflare/terraform-provider-cloudflare/issues/6650
+// This is a regression test for https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/6650
 func TestAccCloudflareHyperdriveConfig_NoDiffOnConsecutiveApply(t *testing.T) {
 	rnd := utils.GenerateRandomResourceName()
 	accountID := os.Getenv("CLOUDFLARE_ACCOUNT_ID")
@@ -447,7 +447,7 @@ func TestAccCloudflareHyperdriveConfig_NoDiffOnConsecutiveApply(t *testing.T) {
 
 // TestAccCloudflareHyperdriveConfig_NoDiffOnConsecutiveApplyWithAccess tests that applying
 // the same configuration with access credentials twice does not result in any changes.
-// This is a regression test for https://github.com/cloudflare/terraform-provider-cloudflare/issues/6650
+// This is a regression test for https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/6650
 func TestAccCloudflareHyperdriveConfig_NoDiffOnConsecutiveApplyWithAccess(t *testing.T) {
 	rnd := utils.GenerateRandomResourceName()
 	accountID := os.Getenv("CLOUDFLARE_ACCOUNT_ID")

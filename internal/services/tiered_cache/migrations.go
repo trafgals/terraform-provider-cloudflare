@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/tiered_cache/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/tiered_cache/migration/v500"
 )
 
 var _ resource.ResourceWithUpgradeState = (*TieredCacheResource)(nil)

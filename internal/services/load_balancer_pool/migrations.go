@@ -4,7 +4,7 @@ package load_balancer_pool
 
 import (
 	"context"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/load_balancer_pool/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/load_balancer_pool/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 

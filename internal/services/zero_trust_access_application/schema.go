@@ -3,8 +3,8 @@ package zero_trust_access_application
 import (
 	"context"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/customfield"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/customvalidator"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/customfield"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/customvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/boolvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/float64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"

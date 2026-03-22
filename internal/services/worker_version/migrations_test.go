@@ -7,9 +7,9 @@ import (
 	"path"
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/acctest"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/worker_version"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/utils"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/acctest"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/worker_version"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/utils"
 	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
@@ -19,7 +19,7 @@ import (
 )
 
 // TestMigrateWorkerVersionFromV5_14 tests migration from v5.14.0 to latest.
-// See: https://github.com/cloudflare/terraform-provider-cloudflare/issues/6567
+// See: https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/6567
 func TestMigrateWorkerVersionFromV5_14(t *testing.T) {
 	rnd := utils.GenerateRandomResourceName()
 	accountID := os.Getenv("CLOUDFLARE_ACCOUNT_ID")
@@ -230,7 +230,7 @@ resource "cloudflare_worker_version" "%[1]s" {
 }
 
 // TestMigrateWorkerVersionFromV0_WithStartupTimeMs tests state upgrade with startup_time_ms.
-// See: https://github.com/cloudflare/terraform-provider-cloudflare/issues/6567
+// See: https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/6567
 func TestMigrateWorkerVersionFromV0_WithStartupTimeMs(t *testing.T) {
 	ctx := context.Background()
 

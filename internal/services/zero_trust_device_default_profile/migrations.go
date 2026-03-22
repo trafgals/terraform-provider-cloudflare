@@ -5,7 +5,7 @@ package zero_trust_device_default_profile
 import (
 	"context"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/zero_trust_device_default_profile/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/zero_trust_device_default_profile/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 

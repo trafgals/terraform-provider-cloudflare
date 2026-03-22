@@ -5,7 +5,7 @@ package regional_tiered_cache
 import (
 	"context"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/regional_tiered_cache/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/regional_tiered_cache/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 

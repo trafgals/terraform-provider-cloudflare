@@ -3,7 +3,7 @@
 package cloudforce_one_request_asset
 
 import (
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/apijson"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/apijson"
 	"github.com/hashicorp/terraform-plugin-framework-timetypes/timetypes"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )

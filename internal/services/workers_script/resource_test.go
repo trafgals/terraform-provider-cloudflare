@@ -12,8 +12,8 @@ import (
 	"github.com/cloudflare/cloudflare-go/v6"
 	"github.com/cloudflare/cloudflare-go/v6/option"
 	"github.com/cloudflare/cloudflare-go/v6/workers"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/acctest"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/utils"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/acctest"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/utils"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/knownvalue"
@@ -659,7 +659,7 @@ func TestAccCloudflareWorkerScript_AssetsConfigRunWorkerFirstMigration(t *testin
 
 // TestAccCloudflareWorkerScript_UnmanagedSecretNoDrift verifies that unmanaged secrets
 // (secrets that exist on the Worker but are not defined in Terraform config) do not cause drift.
-// This is a regression test for https://github.com/cloudflare/terraform-provider-cloudflare/issues/5892
+// This is a regression test for https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/5892
 func TestAccCloudflareWorkerScript_UnmanagedSecretNoDrift(t *testing.T) {
 	t.Parallel()
 

@@ -3,7 +3,7 @@
 package r2_bucket_cors
 
 import (
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/apijson"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/apijson"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 

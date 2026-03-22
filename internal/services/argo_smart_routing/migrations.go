@@ -4,7 +4,7 @@ package argo_smart_routing
 
 import (
 	"context"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/argo_smart_routing/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/argo_smart_routing/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 

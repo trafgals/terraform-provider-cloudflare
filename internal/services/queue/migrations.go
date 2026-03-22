@@ -5,7 +5,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/queue/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/queue/migration/v500"
 )
 
 var _ resource.ResourceWithUpgradeState = (*QueueResource)(nil)

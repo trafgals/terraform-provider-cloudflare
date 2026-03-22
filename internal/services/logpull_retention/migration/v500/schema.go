@@ -6,7 +6,7 @@ import (
 
 // SourceCloudflareLogpullRetentionSchema returns the legacy cloudflare_logpull_retention schema.
 // This is used by UpgradeState to parse state from the legacy SDKv2 provider (v4.x).
-// Reference: https://github.com/cloudflare/terraform-provider-cloudflare/blob/v4/internal/sdkv2provider/schema_cloudflare_logpull_retention.go
+// Reference: https://github.com/trafgals/terraform-provider-cloudflare-trafgals/blob/v4/internal/sdkv2provider/schema_cloudflare_logpull_retention.go
 //
 // This minimal schema includes only the properties needed for state parsing:
 // - Required, Optional, Computed flags

@@ -6,7 +6,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 
-	v500 "github.com/cloudflare/terraform-provider-cloudflare/internal/services/zero_trust_device_posture_rule/migration/v500"
+	v500 "github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/zero_trust_device_posture_rule/migration/v500"
 )
 
 func init() {

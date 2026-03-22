@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/importpath"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/importpath"
 )
 
 func TestParseID(t *testing.T) {

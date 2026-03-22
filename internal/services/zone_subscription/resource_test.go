@@ -6,8 +6,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/acctest"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/utils"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/acctest"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/utils"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/knownvalue"
@@ -181,8 +181,8 @@ func TestAccCloudflareZoneSubscriptionResource_CreateZoneWithPlan_CUSTESC_57375(
 	})
 }
 
-// https://github.com/cloudflare/terraform-provider-cloudflare/issues/5971
-// https://github.com/cloudflare/terraform-provider-cloudflare/issues/6485
+// https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/5971
+// https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/6485
 // Tests that importing a zone subscription with frequency="not-applicable" doesn't cause drift
 func TestAccCloudflareZoneSubscriptionResource_ImportNoChanges_BILLSUB_247(t *testing.T) {
 	rnd := utils.GenerateRandomResourceName()
@@ -257,7 +257,7 @@ func TestAccCloudflareZoneSubscriptionResource_FrequencyNotSupported(t *testing.
 	})
 }
 
-// https://github.com/cloudflare/terraform-provider-cloudflare/issues/6374
+// https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/6374
 func TestAccCloudflareZoneSubscriptionResource_PartnersEnt(t *testing.T) {
 	rnd := utils.GenerateRandomResourceName()
 	accountID := os.Getenv("CLOUDFLARE_ACCOUNT_ID")

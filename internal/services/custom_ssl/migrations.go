@@ -7,7 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	v500 "github.com/cloudflare/terraform-provider-cloudflare/internal/services/custom_ssl/migration/v500"
+	v500 "github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/custom_ssl/migration/v500"
 )
 
 var _ resource.ResourceWithUpgradeState = (*CustomSSLResource)(nil)

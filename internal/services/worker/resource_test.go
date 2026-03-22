@@ -8,8 +8,8 @@ import (
 
 	"github.com/cloudflare/cloudflare-go/v6"
 	"github.com/cloudflare/cloudflare-go/v6/workers"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/acctest"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/utils"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/acctest"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/utils"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 	"github.com/hashicorp/terraform-plugin-testing/knownvalue"
@@ -229,6 +229,8 @@ func testAccCloudflareWorkerConfigBuildsEnabled(rnd, accountID string) string {
 }
 
 func TestAccCloudflareWorker_Builds(t *testing.T) {
+	t.Skip("Skipping: Workers Builds API requires additional token permissions (code 12006)")
+
 	rnd := utils.GenerateRandomResourceName()
 	resourceName := resourcePrefix + rnd
 	name := "cloudflare_worker." + resourceName

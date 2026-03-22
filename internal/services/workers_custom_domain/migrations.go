@@ -5,7 +5,7 @@ package workers_custom_domain
 import (
 	"context"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/workers_custom_domain/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/workers_custom_domain/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 

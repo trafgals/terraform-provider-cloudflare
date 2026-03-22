@@ -5,7 +5,7 @@ package observatory_scheduled_test
 import (
 	"context"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/observatory_scheduled_test/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/observatory_scheduled_test/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 

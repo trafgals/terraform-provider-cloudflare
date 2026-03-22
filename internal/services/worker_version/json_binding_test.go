@@ -5,16 +5,16 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/apijson"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/customfield"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/worker_version"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/apijson"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/customfield"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/worker_version"
 	"github.com/hashicorp/terraform-plugin-framework-jsontypes/jsontypes"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
 // TestJsonBindingMarshal verifies that the json field in bindings is properly
 // serialized as raw JSON, not as a double-encoded string.
-// This is a regression test for https://github.com/cloudflare/terraform-provider-cloudflare/issues/6699
+// This is a regression test for https://github.com/trafgals/terraform-provider-cloudflare-trafgals/issues/6699
 func TestJsonBindingMarshal(t *testing.T) {
 	t.Parallel()
 

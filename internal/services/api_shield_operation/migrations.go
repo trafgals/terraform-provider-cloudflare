@@ -5,7 +5,7 @@ package api_shield_operation
 import (
 	"context"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/api_shield_operation/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/api_shield_operation/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 

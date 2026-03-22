@@ -7,7 +7,7 @@ import (
 
 	"github.com/cloudflare/cloudflare-go/v6"
 	"github.com/cloudflare/cloudflare-go/v6/secrets_store"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/importpath"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/importpath"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )

@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/regional_hostname/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/regional_hostname/migration/v500"
 )
 
 var _ resource.ResourceWithUpgradeState = (*RegionalHostnameResource)(nil)

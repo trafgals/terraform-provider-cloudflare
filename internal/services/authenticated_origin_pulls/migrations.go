@@ -5,7 +5,7 @@ package authenticated_origin_pulls
 import (
 	"context"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/authenticated_origin_pulls/migration/v500"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/authenticated_origin_pulls/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 

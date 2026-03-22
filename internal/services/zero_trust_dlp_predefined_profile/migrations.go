@@ -3,7 +3,7 @@ package zero_trust_dlp_predefined_profile
 import (
 	"context"
 
-	v500 "github.com/cloudflare/terraform-provider-cloudflare/internal/services/zero_trust_dlp_predefined_profile/migration/v500"
+	v500 "github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/zero_trust_dlp_predefined_profile/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 )

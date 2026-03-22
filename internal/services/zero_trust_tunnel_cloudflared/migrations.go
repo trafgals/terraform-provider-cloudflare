@@ -3,7 +3,7 @@ package zero_trust_tunnel_cloudflared
 import (
 	"context"
 
-	v500 "github.com/cloudflare/terraform-provider-cloudflare/internal/services/zero_trust_tunnel_cloudflared/migration/v500"
+	v500 "github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/zero_trust_tunnel_cloudflared/migration/v500"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 )
 

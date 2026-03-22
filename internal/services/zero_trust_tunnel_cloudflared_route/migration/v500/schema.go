@@ -6,7 +6,7 @@ import (
 
 // SourceTunnelRouteSchema returns the legacy cloudflare_tunnel_route schema (schema_version=0).
 // This is used by MoveState and UpgradeFromV4 to parse state from the legacy SDKv2 provider.
-// Reference: https://github.com/cloudflare/terraform-provider-cloudflare/blob/v4/internal/sdkv2provider/schema_cloudflare_tunnel_route.go
+// Reference: https://github.com/trafgals/terraform-provider-cloudflare-trafgals/blob/v4/internal/sdkv2provider/schema_cloudflare_tunnel_route.go
 func SourceTunnelRouteSchema() schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{

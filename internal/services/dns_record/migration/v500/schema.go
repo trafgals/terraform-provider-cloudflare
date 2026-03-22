@@ -7,7 +7,7 @@ import (
 
 // SourceCloudflareRecordSchema returns the legacy cloudflare_record schema (schema_version=3).
 // This is used by MoveState and UpgradeFromLegacyV3 to parse state from the legacy SDKv2 provider.
-// Reference: https://github.com/cloudflare/terraform-provider-cloudflare/blob/v4/internal/sdkv2provider/schema_cloudflare_record.go
+// Reference: https://github.com/trafgals/terraform-provider-cloudflare-trafgals/blob/v4/internal/sdkv2provider/schema_cloudflare_record.go
 func SourceCloudflareRecordSchema() schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{

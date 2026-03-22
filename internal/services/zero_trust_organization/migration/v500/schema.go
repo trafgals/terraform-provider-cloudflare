@@ -11,7 +11,7 @@ import (
 // - cloudflare_access_organization
 // - cloudflare_zero_trust_access_organization
 //
-// Reference: https://github.com/cloudflare/terraform-provider-cloudflare/blob/v4/internal/sdkv2provider/schema_cloudflare_access_organization.go
+// Reference: https://github.com/trafgals/terraform-provider-cloudflare-trafgals/blob/v4/internal/sdkv2provider/schema_cloudflare_access_organization.go
 func SourceCloudflareAccessOrganizationSchema() schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{

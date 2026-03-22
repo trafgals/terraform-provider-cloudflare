@@ -3,8 +3,8 @@ package worker_version_test
 import (
 	"testing"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/apijson"
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/services/worker_version"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/apijson"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/worker_version"
 )
 
 // TestMainScriptBase64Unmarshal verifies that the main_script_base64 field

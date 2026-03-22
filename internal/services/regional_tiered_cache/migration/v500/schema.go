@@ -20,7 +20,7 @@ import (
 // - Descriptions/MarkdownDescription
 // - Default values
 //
-// Reference: https://github.com/cloudflare/terraform-provider-cloudflare/blob/v4/internal/sdkv2provider/schema_cloudflare_regional_tiered_cache.go
+// Reference: https://github.com/trafgals/terraform-provider-cloudflare-trafgals/blob/v4/internal/sdkv2provider/schema_cloudflare_regional_tiered_cache.go
 func SourceCloudflareRegionalTieredCacheSchema() schema.Schema {
 	return schema.Schema{
 		Attributes: map[string]schema.Attribute{

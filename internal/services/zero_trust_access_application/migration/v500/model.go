@@ -3,7 +3,7 @@ package v500
 import (
 	"github.com/hashicorp/terraform-plugin-framework/types"
 
-	"github.com/cloudflare/terraform-provider-cloudflare/internal/customfield"
+	"github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/customfield"
 )
 
 // SourceAccessApplicationModel represents the v4 cloudflare_access_application state structure.

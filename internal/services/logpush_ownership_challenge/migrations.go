@@ -7,7 +7,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 
-	v500 "github.com/cloudflare/terraform-provider-cloudflare/internal/services/logpush_ownership_challenge/migration/v500"
+	v500 "github.com/trafgals/terraform-provider-cloudflare-trafgals/internal/services/logpush_ownership_challenge/migration/v500"
 )
 
 var _ resource.ResourceWithUpgradeState = (*LogpushOwnershipChallengeResource)(nil)
