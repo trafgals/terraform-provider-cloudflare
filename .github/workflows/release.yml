@@ -129,11 +129,7 @@ jobs:
             BINARY_NAME="${BINARY_NAME}.exe"
           fi
           GO111MODULE=on CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o "$BINARY_NAME" .
-          if [[ "$GOOS" == "windows" ]]; then
-            powershell -Command "Compress-Archive -Path '$BINARY_NAME' -DestinationPath '$ZIP_NAME'"
-          else
-            zip "${ZIP_NAME}" "$BINARY_NAME"
-          fi
+          powershell -Command "Compress-Archive -Path '$BINARY_NAME' -DestinationPath '$ZIP_NAME'"
           rm -f "$BINARY_NAME"
 
       - name: Upload artifact
