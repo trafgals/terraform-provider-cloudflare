@@ -63,31 +63,27 @@ jobs:
           mkdir -p dist
           
           # Build and zip each platform sequentially to minimize disk usage
+          VERSION=${{ steps.version.outputs.version }}
           
           # Linux AMD64
-          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_amd64 .
-          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_amd64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_amd64
-          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_amd64
+          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_linux_amd64 .
+          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_linux_amd64.zip terraform-provider-cloudflare-trafgals_${VERSION}_linux_amd64 && rm terraform-provider-cloudflare-trafgals_${VERSION}_linux_amd64)
           
           # Linux ARM64
-          GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_arm64 .
-          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_arm64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_arm64
-          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_linux_arm64
+          GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_linux_arm64 .
+          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_linux_arm64.zip terraform-provider-cloudflare-trafgals_${VERSION}_linux_arm64 && rm terraform-provider-cloudflare-trafgals_${VERSION}_linux_arm64)
           
           # Darwin AMD64
-          GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_amd64 .
-          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_amd64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_amd64
-          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_amd64
+          GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_darwin_amd64 .
+          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_darwin_amd64.zip terraform-provider-cloudflare-trafgals_${VERSION}_darwin_amd64 && rm terraform-provider-cloudflare-trafgals_${VERSION}_darwin_amd64)
           
           # Darwin ARM64
-          GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_arm64 .
-          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_arm64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_arm64
-          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_darwin_arm64
+          GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_darwin_arm64 .
+          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_darwin_arm64.zip terraform-provider-cloudflare-trafgals_${VERSION}_darwin_arm64 && rm terraform-provider-cloudflare-trafgals_${VERSION}_darwin_arm64)
           
           # Windows AMD64
-          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${{ steps.version.outputs.version }}" -o dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_windows_amd64.exe .
-          zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_windows_amd64.zip dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_windows_amd64.exe
-          rm dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_windows_amd64.exe
+          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_windows_amd64.exe .
+          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_windows_amd64.zip terraform-provider-cloudflare-trafgals_${VERSION}_windows_amd64.exe && rm terraform-provider-cloudflare-trafgals_${VERSION}_windows_amd64.exe)
 
       - name: Create checksums
         working-directory: dist
