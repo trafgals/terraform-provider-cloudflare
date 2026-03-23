@@ -122,15 +122,25 @@ jobs:
           GOOS: ${{ matrix.os }}
           GOARCH: ${{ matrix.arch }}
         run: |
+          echo "Building for GOOS=$GOOS GOARCH=$GOARCH VERSION=$VERSION"
           VERSION_STRIPPED="${VERSION#v}"
+          echo "VERSION_STRIPPED=$VERSION_STRIPPED"
           BINARY_NAME="terraform-provider-cloudflare_v${VERSION_STRIPPED}"
           ZIP_NAME="terraform-provider-cloudflare_${VERSION}_${GOOS}_${GOARCH}.zip"
           if [[ "$GOOS" == "windows" ]]; then
             BINARY_NAME="${BINARY_NAME}.exe"
           fi
+          echo "BINARY_NAME=$BINARY_NAME ZIP_NAME=$ZIP_NAME"
           GO111MODULE=on CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o "$BINARY_NAME" .
-          powershell -Command "Compress-Archive -Path '$BINARY_NAME' -DestinationPath '$ZIP_NAME'"
+          echo "Build completed, creating zip..."
+          if [[ "$GOOS" == "windows" ]]; then
+            powershell -Command "Compress-Archive -Path '$BINARY_NAME' -DestinationPath '$ZIP_NAME'"
+          else
+            zip "${ZIP_NAME}" "$BINARY_NAME"
+          fi
+          echo "Zip created, cleaning up..."
           rm -f "$BINARY_NAME"
+          echo "Done!"
 
       - name: Upload artifact
         env:
