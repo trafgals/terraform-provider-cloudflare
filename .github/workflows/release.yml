@@ -42,7 +42,7 @@ jobs:
           gh release create $TAG \
             --title "Terraform Provider Cloudflare $TAG" \
             --notes "Release $TAG" \
-            --repo ${{ github.repository }}
+            --repo ${{ github.repository }} || true
 
       - name: Create release (dev)
         if: steps.version.outputs.is_release == 'false'
