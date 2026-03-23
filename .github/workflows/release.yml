@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 env:
-  GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
   prepare:
