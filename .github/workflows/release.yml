@@ -122,12 +122,18 @@ jobs:
           GOOS: ${{ matrix.os }}
           GOARCH: ${{ matrix.arch }}
         run: |
-          BINARY_NAME="terraform-provider-cloudflare_${VERSION}_${GOOS}_${GOARCH}"
+          BINARY_NAME="terraform-provider-cloudflare_v${VERSION}"
+          ZIP_NAME="terraform-provider-cloudflare_${VERSION}_${GOOS}_${GOARCH}.zip"
           if [[ "$GOOS" == "windows" ]]; then
             BINARY_NAME="${BINARY_NAME}.exe"
           fi
           GO111MODULE=on CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o "$BINARY_NAME" .
-          zip "${BINARY_NAME}.zip" "$BINARY_NAME"
+          if [[ "$GOOS" == "windows" ]]; then
+            powershell -Command "Compress-Archive -Path '$BINARY_NAME' -DestinationPath '$ZIP_NAME'"
+          else
+            zip "${ZIP_NAME}" "$BINARY_NAME"
+          fi
+          rm -f "$BINARY_NAME"
 
       - name: Upload artifact
         env:
@@ -136,11 +142,8 @@ jobs:
           GOOS: ${{ matrix.os }}
           GOARCH: ${{ matrix.arch }}
         run: |
-          BINARY_NAME="terraform-provider-cloudflare_${VERSION}_${GOOS}_${GOARCH}"
-          if [[ "$GOOS" == "windows" ]]; then
-            BINARY_NAME="${BINARY_NAME}.exe"
-          fi
-          gh release upload $TAG "${BINARY_NAME}.zip" --repo ${{ github.repository }}
+          ZIP_NAME="terraform-provider-cloudflare_${VERSION}_${GOOS}_${GOARCH}.zip"
+          gh release upload $TAG "${ZIP_NAME}" --repo ${{ github.repository }}
 
   checksums:
     needs: [prepare, build]
@@ -185,7 +188,7 @@ jobs:
           VERSION: ${{ needs.prepare.outputs.version }}
         working-directory: dist
         run: |
-          gpg --batch --pinentry-mode loopback --passphrase "${{ secrets.GPG_PASSPHRASE }}" --armor --detach-sign --local-user "${GPG_FINGERPRINT}" terraform-provider-cloudflare_${VERSION}_SHA256SUMS
+          gpg --batch --pinentry-mode loopback --passphrase "${{ secrets.GPG_PASSPHRASE }}" --detach-sign --local-user "${GPG_FINGERPRINT}" terraform-provider-cloudflare_${VERSION}_SHA256SUMS
 
       - name: Upload checksums
         env:
@@ -193,4 +196,4 @@ jobs:
           VERSION: ${{ needs.prepare.outputs.version }}
         working-directory: dist
         run: |
-          gh release upload $TAG terraform-provider-cloudflare_${VERSION}_SHA256SUMS terraform-provider-cloudflare_${VERSION}_SHA256SUMS.asc --repo ${{ github.repository }}
+          gh release upload $TAG terraform-provider-cloudflare_${VERSION}_SHA256SUMS terraform-provider-cloudflare_${VERSION}_SHA256SUMS.sig --repo ${{ github.repository }}
