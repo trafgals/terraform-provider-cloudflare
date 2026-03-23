@@ -122,7 +122,8 @@ jobs:
           GOOS: ${{ matrix.os }}
           GOARCH: ${{ matrix.arch }}
         run: |
-          BINARY_NAME="terraform-provider-cloudflare_v${VERSION}"
+          VERSION_STRIPPED="${VERSION#v}"
+          BINARY_NAME="terraform-provider-cloudflare_v${VERSION_STRIPPED}"
           ZIP_NAME="terraform-provider-cloudflare_${VERSION}_${GOOS}_${GOARCH}.zip"
           if [[ "$GOOS" == "windows" ]]; then
             BINARY_NAME="${BINARY_NAME}.exe"
