@@ -89,9 +89,9 @@ jobs:
           - os: darwin
             arch: arm64
             runner: macos-latest
-          - os: windows
-            arch: amd64
-            runner: windows-latest
+          # - os: windows
+          #   arch: amd64
+          #   runner: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
