@@ -122,25 +122,19 @@ jobs:
           GOOS: ${{ matrix.os }}
           GOARCH: ${{ matrix.arch }}
         run: |
-          echo "Building for GOOS=$GOOS GOARCH=$GOARCH VERSION=$VERSION"
           VERSION_STRIPPED="${VERSION#v}"
-          echo "VERSION_STRIPPED=$VERSION_STRIPPED"
           BINARY_NAME="terraform-provider-cloudflare_v${VERSION_STRIPPED}"
-          ZIP_NAME="terraform-provider-cloudflare_${VERSION}_${GOOS}_${GOARCH}.zip"
+          ZIP_NAME="terraform-provider-cloudflare_${VERSION_STRIPPED}_${GOOS}_${GOARCH}.zip"
           if [[ "$GOOS" == "windows" ]]; then
             BINARY_NAME="${BINARY_NAME}.exe"
           fi
-          echo "BINARY_NAME=$BINARY_NAME ZIP_NAME=$ZIP_NAME"
           GO111MODULE=on CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o "$BINARY_NAME" .
-          echo "Build completed, creating zip..."
           if [[ "$GOOS" == "windows" ]]; then
             powershell -Command "Compress-Archive -Path '$BINARY_NAME' -DestinationPath '$ZIP_NAME'"
           else
             zip "${ZIP_NAME}" "$BINARY_NAME"
           fi
-          echo "Zip created, cleaning up..."
           rm -f "$BINARY_NAME"
-          echo "Done!"
 
       - name: Upload artifact
         env:
@@ -176,9 +170,10 @@ jobs:
           TAG: ${{ github.ref_name }}
           VERSION: ${{ needs.prepare.outputs.version }}
         run: |
+          VERSION_STRIPPED="${VERSION#v}"
           mkdir -p dist
           cd dist
-          for asset in terraform-provider-cloudflare_${VERSION}_*.zip; do
+          for asset in terraform-provider-cloudflare_${VERSION_STRIPPED}_*.zip; do
             gh release download $TAG --pattern "$asset" --repo ${{ github.repository }}
           done
 
@@ -187,7 +182,8 @@ jobs:
           VERSION: ${{ needs.prepare.outputs.version }}
         working-directory: dist
         run: |
-          sha256sum terraform-provider-cloudflare_${VERSION}_*.zip > terraform-provider-cloudflare_${VERSION}_SHA256SUMS
+          VERSION_STRIPPED="${VERSION#v}"
+          sha256sum terraform-provider-cloudflare_${VERSION_STRIPPED}_*.zip > terraform-provider-cloudflare_${VERSION_STRIPPED}_SHA256SUMS
 
       - name: Sign checksums
         env:
@@ -195,7 +191,8 @@ jobs:
           VERSION: ${{ needs.prepare.outputs.version }}
         working-directory: dist
         run: |
-          gpg --batch --pinentry-mode loopback --passphrase "${{ secrets.GPG_PASSPHRASE }}" --detach-sign --local-user "${GPG_FINGERPRINT}" terraform-provider-cloudflare_${VERSION}_SHA256SUMS
+          VERSION_STRIPPED="${VERSION#v}"
+          gpg --batch --pinentry-mode loopback --passphrase "${{ secrets.GPG_PASSPHRASE }}" --detach-sign --local-user "${GPG_FINGERPRINT}" terraform-provider-cloudflare_${VERSION_STRIPPED}_SHA256SUMS
 
       - name: Upload checksums
         env:
@@ -203,4 +200,5 @@ jobs:
           VERSION: ${{ needs.prepare.outputs.version }}
         working-directory: dist
         run: |
-          gh release upload $TAG terraform-provider-cloudflare_${VERSION}_SHA256SUMS terraform-provider-cloudflare_${VERSION}_SHA256SUMS.sig --repo ${{ github.repository }}
+          VERSION_STRIPPED="${VERSION#v}"
+          gh release upload $TAG terraform-provider-cloudflare_${VERSION_STRIPPED}_SHA256SUMS terraform-provider-cloudflare_${VERSION_STRIPPED}_SHA256SUMS.sig --repo ${{ github.repository }}
