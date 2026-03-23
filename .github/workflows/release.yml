@@ -8,9 +8,87 @@ on:
       - 'v*'
   workflow_dispatch:
 
+env:
+  GORELEASER_KEY: ${{ secrets.GORELEASER_KEY }}
+
 jobs:
-  release:
+  prepare:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      is_release: ${{ steps.version.outputs.is_release }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Get version
+        id: version
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+            IS_RELEASE=true
+          else
+            VERSION="0.0.0-${GITHUB_SHA::8}"
+            IS_RELEASE=false
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "is_release=$IS_RELEASE" >> $GITHUB_OUTPUT
+
+      - name: Create release
+        if: steps.version.outputs.is_release == 'true'
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release create $TAG \
+            --title "Terraform Provider Cloudflare $TAG" \
+            --notes "Release $TAG" \
+            --repo ${{ github.repository }}
+
+      - name: Create release (dev)
+        if: steps.version.outputs.is_release == 'false'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          TAG="v${VERSION}"
+          gh release create $TAG \
+            --title "Terraform Provider Cloudflare $TAG (dev)" \
+            --notes "Development build" \
+            --repo ${{ github.repository }} || true
+
+      - name: Create manifest
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          echo '{"version": 1, "metadata": {"protocol_versions": ["6.0"]}}' > terraform-provider-cloudflare_${VERSION}_manifest.json
+
+      - name: Upload manifest
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release upload $TAG terraform-provider-cloudflare_${{ steps.version.outputs.version }}_manifest.json --repo ${{ github.repository }}
+
+  build:
+    needs: prepare
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: linux
+            arch: amd64
+            runner: ubuntu-latest
+          - os: linux
+            arch: arm64
+            runner: ubuntu-latest
+          - os: darwin
+            arch: amd64
+            runner: macos-latest
+          - os: darwin
+            arch: arm64
+            runner: macos-latest
+          - os: windows
+            arch: amd64
+            runner: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -35,6 +113,44 @@ jobs:
       - name: Download Go modules
         run: go mod download
 
+      - name: Build
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+          GOOS: ${{ matrix.os }}
+          GOARCH: ${{ matrix.arch }}
+        run: |
+          BINARY_NAME="terraform-provider-cloudflare_${VERSION}_${GOOS}_${GOARCH}"
+          if [[ "$GOOS" == "windows" ]]; then
+            BINARY_NAME="${BINARY_NAME}.exe"
+          fi
+          GO111MODULE=on CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o "$BINARY_NAME" .
+          zip "${BINARY_NAME}.zip" "$BINARY_NAME"
+
+      - name: Upload artifact
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
+          TAG: ${{ github.ref_name }}
+          GOOS: ${{ matrix.os }}
+          GOARCH: ${{ matrix.arch }}
+        run: |
+          BINARY_NAME="terraform-provider-cloudflare_${VERSION}_${GOOS}_${GOARCH}"
+          if [[ "$GOOS" == "windows" ]]; then
+            BINARY_NAME="${BINARY_NAME}.exe"
+          fi
+          gh release upload $TAG "${BINARY_NAME}.zip" --repo ${{ github.repository }}
+
+  checksums:
+    needs: [prepare, build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.24'
+
       - name: Import GPG key
         id: import_gpg
         uses: crazy-max/ghaction-import-gpg@v6
@@ -42,125 +158,36 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Get short SHA
-        id: short_sha
-        run: echo "sha8=$(echo '${github.sha}' | cut -c1-8)" >> $GITHUB_OUTPUT
-
-      - name: Set version
-        id: version
-        run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            VERSION=${GITHUB_REF#refs/tags/}
-          else
-            VERSION="0.0.0-${SHORT_SHA}"
-          fi
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Download all artifacts
         env:
-          SHORT_SHA: ${{ steps.short_sha.outputs.sha8 }}
-
-      - name: Build provider
+          TAG: ${{ github.ref_name }}
+          VERSION: ${{ needs.prepare.outputs.version }}
         run: |
           mkdir -p dist
-          
-          # Build and zip each platform sequentially to minimize disk usage
-          VERSION=${{ steps.version.outputs.version }}
-          
-          # Linux AMD64
-          GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_linux_amd64 .
-          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_linux_amd64.zip terraform-provider-cloudflare-trafgals_${VERSION}_linux_amd64 && rm terraform-provider-cloudflare-trafgals_${VERSION}_linux_amd64)
-          
-          # Linux ARM64
-          GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_linux_arm64 .
-          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_linux_arm64.zip terraform-provider-cloudflare-trafgals_${VERSION}_linux_arm64 && rm terraform-provider-cloudflare-trafgals_${VERSION}_linux_arm64)
-          
-          # Darwin AMD64
-          GOOS=darwin GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_darwin_amd64 .
-          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_darwin_amd64.zip terraform-provider-cloudflare-trafgals_${VERSION}_darwin_amd64 && rm terraform-provider-cloudflare-trafgals_${VERSION}_darwin_amd64)
-          
-          # Darwin ARM64
-          GOOS=darwin GOARCH=arm64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_darwin_arm64 .
-          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_darwin_arm64.zip terraform-provider-cloudflare-trafgals_${VERSION}_darwin_arm64 && rm terraform-provider-cloudflare-trafgals_${VERSION}_darwin_arm64)
-          
-          # Windows AMD64
-          GOOS=windows GOARCH=amd64 CGO_ENABLED=0 go build -ldflags "-s -w -X main.version=${VERSION}" -o dist/terraform-provider-cloudflare-trafgals_${VERSION}_windows_amd64.exe .
-          (cd dist && zip terraform-provider-cloudflare-trafgals_${VERSION}_windows_amd64.zip terraform-provider-cloudflare-trafgals_${VERSION}_windows_amd64.exe && rm terraform-provider-cloudflare-trafgals_${VERSION}_windows_amd64.exe)
+          cd dist
+          for asset in terraform-provider-cloudflare_${VERSION}_*.zip; do
+            gh release download $TAG --pattern "$asset" --repo ${{ github.repository }}
+          done
 
       - name: Create checksums
+        env:
+          VERSION: ${{ needs.prepare.outputs.version }}
         working-directory: dist
         run: |
-          sha256sum terraform-provider-cloudflare-trafgals_* > terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_SHA256SUMS
+          sha256sum terraform-provider-cloudflare_${VERSION}_*.zip > terraform-provider-cloudflare_${VERSION}_SHA256SUMS
 
       - name: Sign checksums
-        working-directory: dist
         env:
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
-        run: |
-          gpg --batch --pinentry-mode loopback --passphrase "${{ secrets.GPG_PASSPHRASE }}" --armor --detach-sign --local-user "${GPG_FINGERPRINT}" terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_SHA256SUMS
-
-      - name: Create manifest
-        run: |
-          cat > dist/terraform-provider-cloudflare-trafgals_${{ steps.version.outputs.version }}_manifest.json << 'EOF'
-          {
-            "version": 1,
-            "metadata": {
-              "protocol_versions": ["6.0"]
-            }
-          }
-          EOF
-
-      - name: Create zip archives
+          VERSION: ${{ needs.prepare.outputs.version }}
         working-directory: dist
         run: |
-          # Zips already created during build step to save disk space
-          echo "All platforms built and zipped in build step"
+          gpg --batch --pinentry-mode loopback --passphrase "${{ secrets.GPG_PASSPHRASE }}" --armor --detach-sign --local-user "${GPG_FINGERPRINT}" terraform-provider-cloudflare_${VERSION}_SHA256SUMS
 
-      - name: Delete existing release
-        if: github.event_name == 'workflow_dispatch'
+      - name: Upload checksums
         env:
           TAG: ${{ github.ref_name }}
+          VERSION: ${{ needs.prepare.outputs.version }}
+        working-directory: dist
         run: |
-          if gh release view $TAG --repo ${{ github.repository }} >/dev/null 2>&1; then
-            gh release delete $TAG --repo ${{ github.repository }} --yes
-          fi
-
-      - name: Create release
-        id: create_release
-        if: github.event_name != 'workflow_dispatch' || github.ref_type == 'tag'
-        env:
-          TAG: ${{ github.ref_name }}
-        run: |
-          if [[ "$TAG" == v* ]]; then
-            gh release create $TAG \
-              --title "Terraform Provider Cloudflare $TAG" \
-              --notes "Release $TAG" \
-              --repo ${{ github.repository }}
-          fi
-
-      - name: Upload release assets
-        if: github.event_name != 'workflow_dispatch' || github.ref_type == 'tag'
-        env:
-          TAG: ${{ github.ref_name }}
-        run: |
-          cd dist
-          for f in *.zip *_SHA256SUMS *_SHA256SUMS.asc manifest.json; do
-            if [[ -f "$f" ]]; then
-              gh release upload $TAG "$f" --repo ${{ github.repository }}
-            fi
-          done
-
-      - name: Upload release assets (workflow dispatch)
-        if: github.event_name == 'workflow_dispatch' && github.ref_type != 'tag'
-        env:
-          VERSION: ${{ steps.version.outputs.version }}
-        run: |
-          TAG="v${VERSION}"
-          gh release create $TAG \
-            --title "Terraform Provider Cloudflare $TAG" \
-            --notes "Development build" \
-            --repo ${{ github.repository }}
-          cd dist
-          for f in *.zip *_SHA256SUMS *_SHA256SUMS.asc manifest.json; do
-            if [[ -f "$f" ]]; then
-              gh release upload $TAG "$f" --repo ${{ github.repository }}
-            fi
-          done
+          gh release upload $TAG terraform-provider-cloudflare_${VERSION}_SHA256SUMS terraform-provider-cloudflare_${VERSION}_SHA256SUMS.asc --repo ${{ github.repository }}
