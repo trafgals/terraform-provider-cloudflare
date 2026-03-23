@@ -64,8 +64,11 @@ jobs:
       - name: Upload manifest
         env:
           TAG: ${{ github.ref_name }}
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          gh release upload $TAG terraform-provider-cloudflare_${{ steps.version.outputs.version }}_manifest.json --repo ${{ github.repository }}
+          pwd
+          ls -la terraform-provider-cloudflare_${VERSION}_manifest.json || echo "File not found"
+          gh release upload $TAG terraform-provider-cloudflare_${VERSION}_manifest.json --repo ${{ github.repository }}
 
   build:
     needs: prepare
